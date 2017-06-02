@@ -1,0 +1,20 @@
+# Default values for load-gen
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# These default values will generate ~ 1000 milli-cpus of load
+threads: "10"
+primes: "1000000"
+
+replicaCount: 1
+image:
+  repository: ruby
+  tag: 2.3.3-alpine
+  pullPolicy: Always
+resources:
+  limits:
+    cpu: 1000m
+    memory: 512Mi
+  requests:
+    cpu: 1000m
+    memory: 256Mi

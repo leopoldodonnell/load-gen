@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "fullname" . }}
+data: 
+  busy-prime.rb: |
+    require 'prime'
+    require 'logger'
+    
+    LOGGER = Logger.new(STDOUT)
+    LOGGER.level = Logger::INFO
+  
+    num_threads = ARGV[0].to_i
+    num_primes = ARGV[1].to_i
+    report_interval = 10
+
+
+    LOGGER.info "Running busy-prime with #{num_threads} threads for #{num_primes} primes"
+    
+
+    # Loop forever calculating prime numbers
+    threads = []
+    (1..num_threads).each { |i|
+      threads << Thread.new {
+        count = 0
+        loop do
+          Prime.first(num_primes).last
+          count += 1
+          LOGGER.info("Thr: #{i} Interation Count: #{count}") && STDOUT.flush unless (count % report_interval > 0)
+        end
+      }
+    }
+  
+    # Wait for them all to end - NB! they shouln't
+    threads.each { |t| t.join }
+  
