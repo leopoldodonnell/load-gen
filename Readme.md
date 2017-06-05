@@ -15,5 +15,5 @@ replicas will map pretty evenly to CPUs.
 1. Clone this repository
 1. Run the following
 
-    > helm install load-gen --name load-gen --replicaCount={how many cpus}
+    > helm install load-gen --name load-gen --set replicaCount={how many cpus}
 
