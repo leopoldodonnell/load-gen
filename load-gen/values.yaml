@@ -6,7 +6,6 @@
 threads: "10"
 primes: "1000000"
 
-replicaCount: 1
 image:
   repository: ruby
   tag: 2.3.3-alpine

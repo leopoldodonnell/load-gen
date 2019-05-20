@@ -1,16 +1,22 @@
-apiVersion: extensions/v1beta1
-kind: Deployment
+apiVersion: apps/v1
+kind: DaemonSet
 metadata:
   name: {{ template "fullname" . }}
   labels:
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    k8s-app: {{ template "fullname" . }}
 spec:
-  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      name: {{ template "fullname" . }}
   template:
     metadata:
       labels:
-        app: {{ template "fullname" . }}
+        name: {{ template "fullname" . }}
     spec:
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        effect: NoSchedule
       volumes:
       - name: scripts
         configMap:
